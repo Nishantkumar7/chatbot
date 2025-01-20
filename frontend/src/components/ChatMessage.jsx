@@ -5,25 +5,23 @@ const ChatMessage = ({ message }) => {
   const isBot = message.sender === 'bot';
 
   return (
-    <div className={`flex items-start gap-3 ${isBot ? '' : 'flex-row-reverse'}`}>
-  
+    <div className={`flex items-start gap-3 ${isBot ? '' : 'flex-row-reverse'} mb-6`}>
       <div
-        className={`flex items-center justify-center w-10 h-10 rounded-full shadow-lg transition-transform transform ${
-          isBot ? 'bg-blue-200' : 'bg-green-200'
-        } hover:scale-110`}
+        className={`flex items-center justify-center w-12 h-12 rounded-full shadow-xl transform ${
+          isBot ? 'bg-indigo-500' : 'bg-green-500'
+        } text-white`}
       >
-        {isBot ? <Bot size={20} className="text-blue-600" /> : <User size={20} className="text-green-600" />}
+        {isBot ? <Bot size={24} /> : <User size={24} />}
       </div>
 
       <div
-        className={`max-w-[80%] p-4 rounded-lg shadow-md transition-all transform ${
-          isBot ? 'bg-blue-100' : 'bg-green-100'
-        } hover:shadow-lg hover:bg-opacity-90`}
+        className={`max-w-[75%] p-4 rounded-2xl shadow-lg transition-transform transform ${
+          isBot ? 'bg-indigo-100 text-indigo-900' : 'bg-green-100 text-green-900'
+        } hover:scale-105`}
       >
-        <p className="text-md text-gray-800 leading-relaxed">{message.text}</p>
-
+        <p className="text-md leading-relaxed">{message.text}</p>
         <span className="text-xs text-gray-500 mt-2 block">
-          {new Date(message.timestamp).toLocaleTimeString()}
+          {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </span>
       </div>
     </div>

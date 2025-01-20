@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ChatMessage from './components/ChatMessage';
 import ChatInput from './components/ChatInput';
-import { BotMessageSquare } from 'lucide-react';
+import { Bot } from 'lucide-react';
 
 function App() {
   const [state, setState] = useState({
@@ -18,14 +18,14 @@ function App() {
       timestamp: new Date(),
     };
 
-    setState(prev => ({
+    setState((prev) => ({
       ...prev,
       messages: [...prev.messages, userMessage],
       isLoading: true,
     }));
 
     try {
-      const response = await fetch('http://localhost:5000/api/chat', {
+      const response = await fetch('https://chatbot-backend-a855.onrender.com/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -34,7 +34,7 @@ function App() {
       });
 
       const data = await response.json();
-      
+
       const botMessage = {
         id: Date.now().toString(),
         text: data.response,
@@ -42,13 +42,13 @@ function App() {
         timestamp: new Date(),
       };
 
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         messages: [...prev.messages, botMessage],
         isLoading: false,
       }));
     } catch (error) {
-      setState(prev => ({
+      setState((prev) => ({
         ...prev,
         error: 'Failed to send message. Please try again.',
         isLoading: false,
@@ -57,19 +57,19 @@ function App() {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-100">
-      <header className="bg-blue-500 shadow-lg p-4">
+    <div className="flex flex-col h-screen bg-gradient-to-b from-gray-100 to-gray-300">
+      <header className="bg-gradient-to-r from-indigo-500 to-purple-500 shadow-xl p-6">
         <div className="max-w-4xl mx-auto text-white">
-          <div className="flex items-center gap-2">
-            <BotMessageSquare className="text-white" size={30} />
-            <h1 className="text-2xl font-bold">Chatbot</h1>
+          <div className="flex items-center gap-3">
+            <Bot size={32} />
+            <h1 className="text-3xl font-extrabold tracking-wide">Chatbot</h1>
           </div>
         </div>
       </header>
 
-      <main className="flex-1 max-w-4xl w-full mx-auto p-4 overflow-y-auto bg-white rounded-lg shadow-lg">
-        <div className="space-y-4">
-          {state.messages.map(message => (
+      <main className="flex-1 max-w-4xl w-full mx-auto p-6 overflow-y-auto bg-white rounded-lg shadow-lg">
+        <div className="space-y-6">
+          {state.messages.map((message) => (
             <ChatMessage key={message.id} message={message} />
           ))}
           {state.isLoading && (
@@ -78,16 +78,16 @@ function App() {
             </div>
           )}
           {state.error && (
-            <div className="p-3 bg-red-100 text-red-700 rounded-lg">
+            <div className="p-4 bg-red-100 text-red-800 rounded-lg shadow">
               {state.error}
             </div>
           )}
         </div>
       </main>
 
-      <div className="max-w-4xl w-full mx-auto p-4 bg-white shadow-md rounded-lg">
+      <footer className="max-w-4xl w-full mx-auto p-4 bg-white shadow-md rounded-lg">
         <ChatInput onSendMessage={handleSendMessage} isLoading={state.isLoading} />
-      </div>
+      </footer>
     </div>
   );
 }
